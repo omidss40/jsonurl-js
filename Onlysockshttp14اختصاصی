@@ -1,0 +1,644 @@
+{
+  "dns": {
+    "final": "local-dns",
+    "rules": [
+      {
+        "clash_mode": "Global",
+        "server": "proxy-dns",
+        "source_ip_cidr": [
+          "172.19.0.0/30"
+        ]
+      },
+      {
+        "server": "proxy-dns",
+        "source_ip_cidr": [
+          "172.19.0.0/30"
+        ]
+      },
+      {
+        "clash_mode": "Direct",
+        "server": "direct-dns"
+      },
+      {
+        "rule_set": [
+          "geosite-ir"
+        ],
+        "server": "direct-dns"
+      },
+      {
+        "rule_set": [
+          "geosite-category-ads-all",
+          "geosite-malware",
+          "geosite-phishing",
+          "geosite-cryptominers"
+        ],
+        "server": "block"
+      }
+    ],
+    "servers": [
+      {
+        "address": "tls://208.67.222.123",
+        "address_resolver": "local-dns",
+        "detour": "proxy",
+        "tag": "proxy-dns"
+      },
+      {
+        "address": "local",
+        "detour": "direct",
+        "tag": "local-dns"
+      },
+      {
+        "address": "rcode://success",
+        "tag": "block"
+      },
+      {
+        "address": "local",
+        "detour": "direct",
+        "tag": "direct-dns"
+      }
+    ],
+    "strategy": "prefer_ipv4"
+  },
+  "inbounds": [
+    {
+      "address": [
+        "172.19.0.1/30",
+        "fdfe:dcba:9876::1/126"
+      ],
+      "auto_route": true,
+      "endpoint_independent_nat": false,
+      "mtu": 9000,
+      "platform": {
+        "http_proxy": {
+          "enabled": true,
+          "server": "127.0.0.1",
+          "server_port": 2080
+        }
+      },
+      "sniff": true,
+      "stack": "system",
+      "strict_route": false,
+      "type": "tun"
+    },
+    {
+      "listen": "127.0.0.1",
+      "listen_port": 2080,
+      "sniff": true,
+      "type": "mixed",
+      "users": []
+    }
+  ],
+  "outbounds": [
+    {
+      "tag": "proxy",
+      "type": "selector",
+      "outbounds": [
+        "auto",
+        "vmess-Onlysockshttp-1",
+        "vless-Onlysockshttp-1",
+        "trojan-Onlysockshttp-1",
+        "vmess-Onlysockshttp-2",
+        "vmess-Onlysockshttp-3",
+        "vmess-Onlysockshttp-4",
+        "vmess-Onlysockshttp-5",
+        "vmess-Onlysockshttp-6",
+        "vmess-Onlysockshttp-7",
+        "vmess-Onlysockshttp-8",
+        "vmess-Onlysockshttp-9",
+        "vmess-Onlysockshttp-10",
+        "vmess-Onlysockshttp-11",
+        "ss-Onlysockshttp-1",
+        "ss-Onlysockshttp-2",
+        "ss-Onlysockshttp-3",
+        "trojan-Onlysockshttp-2",
+        "ss-Onlysockshttp-4",
+        "vless-Onlysockshttp-2",
+        "ss-Onlysockshttp-5",
+        "ss-Onlysockshttp-6",
+        "ss-Onlysockshttp-7",
+        "vmess-Onlysockshttp-12",
+        "vmess-Onlysockshttp-13",
+        "direct"
+      ]
+    },
+    {
+      "tag": "auto",
+      "type": "urltest",
+      "outbounds": [
+        "vmess-Onlysockshttp-1",
+        "vless-Onlysockshttp-1",
+        "trojan-Onlysockshttp-1",
+        "vmess-Onlysockshttp-2",
+        "vmess-Onlysockshttp-3",
+        "vmess-Onlysockshttp-4",
+        "vmess-Onlysockshttp-5",
+        "vmess-Onlysockshttp-6",
+        "vmess-Onlysockshttp-7",
+        "vmess-Onlysockshttp-8",
+        "vmess-Onlysockshttp-9",
+        "vmess-Onlysockshttp-10",
+        "vmess-Onlysockshttp-11",
+        "ss-Onlysockshttp-1",
+        "ss-Onlysockshttp-2",
+        "ss-Onlysockshttp-3",
+        "trojan-Onlysockshttp-2",
+        "ss-Onlysockshttp-4",
+        "vless-Onlysockshttp-2",
+        "ss-Onlysockshttp-5",
+        "ss-Onlysockshttp-6",
+        "ss-Onlysockshttp-7",
+        "vmess-Onlysockshttp-12",
+        "vmess-Onlysockshttp-13"
+      ],
+      "url": "http://www.gstatic.com/generate_204",
+      "interval": "10m",
+      "tolerance": 50
+    },
+    {
+      "tag": "direct",
+      "type": "direct"
+    },
+    {
+      "type": "vmess",
+      "tag": "vmess-Onlysockshttp-1",
+      "server": "91.107.243.150",
+      "server_port": 32017,
+      "uuid": "c0ccdeb9-784c-4d67-b904-20dcaac9902a",
+      "security": "auto",
+      "alter_id": 0,
+      "transport": {},
+      "tls": {
+        "enabled": false,
+        "insecure": true,
+        "server_name": "91.107.243.150"
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "vless-Onlysockshttp-1",
+      "server": "185.231.205.5",
+      "server_port": 8880,
+      "uuid": "df0680ca-e43c-498d-ed86-8e196eedd012",
+      "flow": "",
+      "transport": {},
+      "tls": {
+        "enabled": true,
+        "server_name": "185.231.205.5",
+        "insecure": true
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "trojan-Onlysockshttp-1",
+      "server": "35.180.162.247",
+      "server_port": 22222,
+      "password": "telegram-id-privatevpns",
+      "transport": {},
+      "tls": {
+        "enabled": true,
+        "server_name": "trojan.burgerip.co.uk",
+        "insecure": true,
+        "alpn": [
+          "http/1.1"
+        ]
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "vmess-Onlysockshttp-2",
+      "server": "23.162.200.227",
+      "server_port": 443,
+      "uuid": "03fcc618-b93d-6796-6aed-8a38c975d581",
+      "security": "auto",
+      "alter_id": 0,
+      "transport": {
+        "path": "/linkvws",
+        "headers": {
+          "Host": "23.162.200.227"
+        },
+        "type": "ws"
+      },
+      "tls": {
+        "enabled": true,
+        "insecure": true,
+        "server_name": "trojan.burgerip.co.uk"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "vmess-Onlysockshttp-3",
+      "server": "15.235.50.172",
+      "server_port": 443,
+      "uuid": "03fcc618-b93d-6796-6aed-8a38c975d581",
+      "security": "auto",
+      "alter_id": 0,
+      "transport": {
+        "path": "/linkvws",
+        "headers": {
+          "Host": "baradiha.com"
+        },
+        "type": "ws"
+      },
+      "tls": {
+        "enabled": true,
+        "insecure": true,
+        "server_name": "baradiha.com"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "vmess-Onlysockshttp-4",
+      "server": "57.129.25.25",
+      "server_port": 443,
+      "uuid": "03fcc618-b93d-6796-6aed-8a38c975d581",
+      "security": "auto",
+      "alter_id": 0,
+      "transport": {
+        "path": "/linkvws",
+        "headers": {
+          "Host": "f.khilei.com"
+        },
+        "type": "ws"
+      },
+      "tls": {
+        "enabled": true,
+        "insecure": true,
+        "server_name": "wrmelmwxlf.gktevlrqznwqqozy.fabpfs66gizmnojhcvqxwl.kytrcfzqla87gvgvs6c7kjnrubuh.cc"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "vmess-Onlysockshttp-5",
+      "server": "57.129.24.124",
+      "server_port": 443,
+      "uuid": "03fcc618-b93d-6796-6aed-8a38c975d581",
+      "security": "auto",
+      "alter_id": 0,
+      "transport": {
+        "path": "/linkvws",
+        "headers": {
+          "Host": "aveiror.com"
+        },
+        "type": "ws"
+      },
+      "tls": {
+        "enabled": true,
+        "insecure": true,
+        "server_name": "wrmelmwxlf.gktevlrqznwqqozy.fabpfs66gizmnojhcvqxwl.kytrcfzqla87gvgvs6c7kjnrubuh.cc"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "vmess-Onlysockshttp-6",
+      "server": "15.235.83.228",
+      "server_port": 443,
+      "uuid": "03fcc618-b93d-6796-6aed-8a38c975d581",
+      "security": "auto",
+      "alter_id": 0,
+      "transport": {
+        "path": "/linkvws",
+        "type": "ws"
+      },
+      "tls": {
+        "enabled": true,
+        "insecure": true,
+        "server_name": "wrmelmwxlf.gktevlrqznwqqozy.fabpfs66gizmnojhcvqxwl.kytrcfzqla87gvgvs6c7kjnrubuh.cc"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "vmess-Onlysockshttp-7",
+      "server": "57.129.28.65",
+      "server_port": 443,
+      "uuid": "03fcc618-b93d-6796-6aed-8a38c975d581",
+      "security": "auto",
+      "alter_id": 0,
+      "transport": {
+        "path": "/linkvws",
+        "headers": {
+          "Host": "kapelleng.com"
+        },
+        "type": "ws"
+      },
+      "tls": {
+        "enabled": true,
+        "insecure": true,
+        "server_name": "wrmelmwxlf.gktevlrqznwqqozy.fabpfs66gizmnojhcvqxwl.kytrcfzqla87gvgvs6c7kjnrubuh.cc"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "vmess-Onlysockshttp-8",
+      "server": "57.129.28.69",
+      "server_port": 443,
+      "uuid": "03fcc618-b93d-6796-6aed-8a38c975d581",
+      "security": "auto",
+      "alter_id": 0,
+      "transport": {
+        "path": "/linkvws",
+        "headers": {
+          "Host": "baradiha.com"
+        },
+        "type": "ws"
+      },
+      "tls": {
+        "enabled": true,
+        "insecure": true,
+        "server_name": "wrmelmwxlf.gktevlrqznwqqozy.fabpfs66gizmnojhcvqxwl.kytrcfzqla87gvgvs6c7kjnrubuh.cc"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "vmess-Onlysockshttp-9",
+      "server": "57.129.25.22",
+      "server_port": 443,
+      "uuid": "03fcc618-b93d-6796-6aed-8a38c975d581",
+      "security": "auto",
+      "alter_id": 0,
+      "transport": {
+        "path": "/linkvws",
+        "headers": {
+          "Host": "o.metuji.com"
+        },
+        "type": "ws"
+      },
+      "tls": {
+        "enabled": true,
+        "insecure": true,
+        "server_name": "wrmelmwxlf.gktevlrqznwqqozy.fabpfs66gizmnojhcvqxwl.kytrcfzqla87gvgvs6c7kjnrubuh.cc"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "vmess-Onlysockshttp-10",
+      "server": "45.124.84.200",
+      "server_port": 443,
+      "uuid": "90e56755-db30-4455-95d0-6ab9da305720",
+      "security": "auto",
+      "alter_id": 0,
+      "transport": {
+        "path": "/vmess",
+        "headers": {
+          "Host": "lifetime.idk.io.vn"
+        },
+        "type": "ws"
+      },
+      "tls": {
+        "enabled": true,
+        "insecure": true,
+        "server_name": "lifetime.idk.io.vn"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "vmess-Onlysockshttp-11",
+      "server": "57.129.24.125",
+      "server_port": 443,
+      "uuid": "03fcc618-b93d-6796-6aed-8a38c975d581",
+      "security": "auto",
+      "alter_id": 0,
+      "transport": {
+        "path": "/linkvws",
+        "headers": {
+          "Host": "wrmelmwxlf.gktevlrqznwqqozy.fabpfs66gizmnojhcvqxwl.kytrcfzqla87gvgvs6c7kjnrubuh.cc"
+        },
+        "type": "ws"
+      },
+      "tls": {
+        "enabled": true,
+        "insecure": true,
+        "server_name": "wrmelmwxlf.gktevlrqznwqqozy.fabpfs66gizmnojhcvqxwl.kytrcfzqla87gvgvs6c7kjnrubuh.cc"
+      }
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "ss-Onlysockshttp-1",
+      "server": "103.111.114.29",
+      "server_port": 57456,
+      "method": "chacha20-ietf-poly1305",
+      "password": "360e21d21977dc11"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "ss-Onlysockshttp-2",
+      "server": "103.186.155.22",
+      "server_port": 38388,
+      "method": "aes-256-cfb",
+      "password": "Xn8jKdmDM00IeO%#$#fJAMtsEAEUOpH/YWYtYqDFnT0SV"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "ss-Onlysockshttp-3",
+      "server": "45.87.175.35",
+      "server_port": 8080,
+      "method": "chacha20-ietf-poly1305",
+      "password": "oZIoA69Q8yhcQV8ka3Pa3A"
+    },
+    {
+      "type": "trojan",
+      "tag": "trojan-Onlysockshttp-2",
+      "server": "3.64.91.90",
+      "server_port": 22223,
+      "password": "telegram-id-directvpn",
+      "transport": {},
+      "tls": {
+        "enabled": true,
+        "server_name": "trojan.burgerip.co.uk",
+        "insecure": true,
+        "alpn": [
+          "http/1.1"
+        ]
+      }
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "ss-Onlysockshttp-4",
+      "server": "185.193.102.7",
+      "server_port": 57456,
+      "method": "chacha20-ietf-poly1305",
+      "password": "a58fa62b4944ddbf"
+    },
+    {
+      "type": "vless",
+      "tag": "vless-Onlysockshttp-2",
+      "server": "188.245.241.2",
+      "server_port": 10100,
+      "uuid": "e8d31a0f-1683-47d2-825c-ff8e9f58c06f",
+      "flow": "",
+      "transport": {},
+      "tls": {
+        "enabled": true,
+        "server_name": "188.245.241.2",
+        "insecure": true
+      }
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "ss-Onlysockshttp-5",
+      "server": "103.186.154.27",
+      "server_port": 38388,
+      "method": "aes-256-cfb",
+      "password": "Xn8jKdmDM00IeO%#$#fJAMtsEAEUOpH/YWYtYqDFnT0SV"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "ss-Onlysockshttp-6",
+      "server": "89.46.238.35",
+      "server_port": 989,
+      "method": "aes-256-cfb",
+      "password": "f8f7aCzcPKbsF8p3"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "ss-Onlysockshttp-7",
+      "server": "4.158.64.101",
+      "server_port": 443,
+      "method": "chacha20-ietf-poly1305",
+      "password": "W74XFALLLuw6m5IA"
+    },
+    {
+      "type": "vmess",
+      "tag": "vmess-Onlysockshttp-12",
+      "server": "94.136.185.230",
+      "server_port": 10534,
+      "uuid": "b01c7ef9-33ec-41f6-bfbf-77ddc4d21649",
+      "security": "auto",
+      "alter_id": 0,
+      "transport": {},
+      "tls": {
+        "enabled": false,
+        "insecure": true,
+        "server_name": "94.136.185.230"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "vmess-Onlysockshttp-13",
+      "server": "51.79.102.253",
+      "server_port": 80,
+      "uuid": "58fe1542-5290-40ad-815a-77707a81afe5",
+      "security": "auto",
+      "alter_id": 0,
+      "transport": {
+        "path": "/IOebhLMhl1CTbFHbL95myfRX2",
+        "headers": {
+          "Host": "51.79.102.253"
+        },
+        "type": "ws"
+      },
+      "tls": {
+        "enabled": false,
+        "insecure": true,
+        "server_name": "51.79.102.253"
+      }
+    }
+  ],
+  "route": {
+    "auto_detect_interface": true,
+    "final": "proxy",
+    "rules": [
+      {
+        "clash_mode": "Direct",
+        "outbound": "direct"
+      },
+      {
+        "clash_mode": "Global",
+        "outbound": "proxy"
+      },
+      {
+        "protocol": "dns",
+        "action": "hijack-dns"
+      },
+      {
+        "domain_suffix": [
+          ".ir"
+        ],
+        "outbound": "direct"
+      },
+      {
+        "rule_set": [
+          "geoip-ir",
+          "geosite-ir"
+        ],
+        "outbound": "direct"
+      },
+      {
+        "rule_set": [
+          "geosite-category-ads-all",
+          "geosite-malware",
+          "geosite-phishing",
+          "geosite-cryptominers",
+          "geoip-malware",
+          "geoip-phishing"
+        ],
+        "outbound": "block"
+      }
+    ],
+    "rule_set": [
+      {
+        "tag": "geosite-ir",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-ir.srs",
+        "download_detour": "direct",
+        "update_interval": "1d"
+      },
+      {
+        "tag": "geosite-category-ads-all",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-category-ads-all.srs",
+        "download_detour": "direct",
+        "update_interval": "1d"
+      },
+      {
+        "tag": "geosite-malware",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-malware.srs",
+        "download_detour": "direct",
+        "update_interval": "1d"
+      },
+      {
+        "tag": "geosite-phishing",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-phishing.srs",
+        "download_detour": "direct",
+        "update_interval": "1d"
+      },
+      {
+        "tag": "geosite-cryptominers",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-cryptominers.srs",
+        "download_detour": "direct",
+        "update_interval": "1d"
+      },
+      {
+        "tag": "geoip-ir",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geoip-ir.srs",
+        "download_detour": "direct",
+        "update_interval": "1d"
+      },
+      {
+        "tag": "geoip-malware",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geoip-malware.srs",
+        "download_detour": "direct",
+        "update_interval": "1d"
+      },
+      {
+        "tag": "geoip-phishing",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geoip-phishing.srs",
+        "download_detour": "direct",
+        "update_interval": "1d"
+      }
+    ]
+  }
+}
